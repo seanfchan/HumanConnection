@@ -12,13 +12,13 @@
 
 class Profile < ActiveRecord::Base
 
-    # Accessors
-    attr_accessible :full_name
+  # Accessors
+  attr_accessible :full_name
 
-    # Relationship
-    belongs_to :user
+  # Relationship
+  belongs_to :user
 
-    # Validation
-    validates :full_name, :presence => true
+  # Validation
+  validates :full_name, :presence => true
   
 end
