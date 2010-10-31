@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101031052806
+# Schema version: 20101031200251
 #
 # Table name: accounts
 #
@@ -10,9 +10,9 @@
 #  oath_token     :string(255)
 #  phone_number   :string(255)
 #  last_sync_time :datetime
+#  user_id        :integer
 #  created_at     :datetime
 #  updated_at     :datetime
-#  user_id        :integer
 #
 
 class Account < ActiveRecord::Base

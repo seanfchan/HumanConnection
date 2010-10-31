@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 20101031180130
+# Schema version: 20101031200251
 #
 # Table name: users
 #
 #  id         :integer         not null, primary key
-#  username   :string(255)
+#  email      :string(255)
 #  password   :string(255)
 #  created_at :datetime
 #  updated_at :datetime
@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 	attr_accessible :email, :password
 	
 	# Relationships
+	has_one  :profile
 	has_many :accounts
 	has_many :connections
 	has_many :connectees, :through => :connections

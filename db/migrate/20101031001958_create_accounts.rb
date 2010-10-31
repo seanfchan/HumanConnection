@@ -7,7 +7,7 @@ class CreateAccounts < ActiveRecord::Migration
       t.string   :oath_token
 	  t.string   :phone_number
       t.datetime :last_sync_time
-
+      t.integer  :user_id
       t.timestamps
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101031180130) do
+ActiveRecord::Schema.define(:version => 20101031200251) do
 
   create_table "accounts", :force => true do |t|
     t.string   "type"
@@ -19,9 +19,9 @@ ActiveRecord::Schema.define(:version => 20101031180130) do
     t.string   "oath_token"
     t.string   "phone_number"
     t.datetime "last_sync_time"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
 
   create_table "connections", :force => true do |t|
@@ -42,6 +42,13 @@ ActiveRecord::Schema.define(:version => 20101031180130) do
   create_table "conversations_users", :id => false, :force => true do |t|
     t.integer "user_id"
     t.integer "conversation_id"
+  end
+
+  create_table "profiles", :force => true do |t|
+    t.string   "full_name"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
