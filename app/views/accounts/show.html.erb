@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Login:</b>
+  <%= @account.login %>
+</p>
+
+<p>
+  <b>Password:</b>
+  <%= @account.password %>
+</p>
+
+<p>
+  <b>Account type:</b>
+  <%= @account.account_type %>
+</p>
+
+<p>
+  <b>Oath token:</b>
+  <%= @account.oath_token %>
+</p>
+
+<p>
+  <b>Last sync time:</b>
+  <%= @account.last_sync_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_account_path(@account) %> |
+<%= link_to 'Back', accounts_path %>

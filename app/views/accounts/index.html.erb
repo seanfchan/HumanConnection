@@ -1,0 +1,31 @@
+<h1>Listing accounts</h1>
+
+<table>
+  <tr>
+    <th>Login</th>
+    <th>Password</th>
+    <th>Account type</th>
+    <th>Oath token</th>
+    <th>Last sync time</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @accounts.each do |account| %>
+  <tr>
+    <td><%= account.login %></td>
+    <td><%= account.password %></td>
+    <td><%= account.account_type %></td>
+    <td><%= account.oath_token %></td>
+    <td><%= account.last_sync_time %></td>
+    <td><%= link_to 'Show', account %></td>
+    <td><%= link_to 'Edit', edit_account_path(account) %></td>
+    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Account', new_account_path %>
