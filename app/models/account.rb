@@ -17,22 +17,22 @@
 
 class Account < ActiveRecord::Base
 
-	# Accessors
-	attr_accessible :type, :last_sync_time
-	
-	# Relationships
-	belongs_to :user
+  # Accessors
+  attr_accessible :type, :last_sync_time
+  
+  # Relationships
+  belongs_to :user
 
-	# Validation
-	validates :user_id, :presence => true
-	validates :type, :presence => true
+  # Validation
+  validates :user_id, :presence => true
+  validates :type, :presence => true
 end
 
 # Email Accounts
 class EmailAccount < Account
-	attr_accessible :login, :password
-	validates :login,    :presence => true
-	validates :password, :presence => true
+  attr_accessible :login, :password
+  validates :login,    :presence => true
+  validates :password, :presence => true
 end
 class GmailAccount < Account; end
 class HotmailAccount < Account; end
@@ -40,8 +40,8 @@ class YahooAccount < Account; end
 
 # Phone Accounts
 class PhoneAccount < Account
-	attr_accessible :phone_number
-	validates :phone_number, :presence => true
+  attr_accessible :phone_number
+  validates :phone_number, :presence => true
 end
 class IPhoneAccount < PhoneAccount; end
 class AndroidAccount < PhoneAccount; end
@@ -50,8 +50,8 @@ class BlackBerryAccount < PhoneAccount; end
 
 # Social Networking Accounts
 class SocialNetworkAccount < Account
-	attr_accessible :oath_token
-	validates :oath_token, :presence => true
+  attr_accessible :oath_token
+  validates :oath_token, :presence => true
 end
 class TwitterAccount < SocialNetworkAccount; end
 class FacebookAccount < SocialNetworkAccount; end

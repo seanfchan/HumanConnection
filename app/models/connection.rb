@@ -12,17 +12,17 @@
 #
 
 class Connection < ActiveRecord::Base
-	
-	# Accessors
-	attr_accessible :type, :user_id, :connection_id
-	
-	# Relationships
-	belongs_to :user, :class_name => 'User'
-	belongs_to :connectee, :class_name => 'User', :foreign_key => "connection_id"
-	
-	validates :type, :presence => true
-	validates :user_id, :presence => true
-	validates :connection_id, :presence => true
+  
+  # Accessors
+  attr_accessible :type, :user_id, :connection_id
+  
+  # Relationships
+  belongs_to :user, :class_name => 'User'
+  belongs_to :connectee, :class_name => 'User', :foreign_key => "connection_id"
+  
+  validates :type, :presence => true
+  validates :user_id, :presence => true
+  validates :connection_id, :presence => true
 end
 
 class FamilyConnection < Connection; end

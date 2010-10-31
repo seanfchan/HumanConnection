@@ -7,6 +7,6 @@ class AddConversationUserRelationship < ActiveRecord::Migration
   end
 
   def self.down
-	drop_table :conversations_users
+    drop_table :conversations_users
   end
 end

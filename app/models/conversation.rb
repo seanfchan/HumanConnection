@@ -12,16 +12,16 @@
 
 class Conversation < ActiveRecord::Base
 
-	# Accessors
-	attr_accessible :type, :time
-	
-	# Relationships
-	has_and_belongs_to_many :users
-	
-	# Validation
-	validates :time, :presence => true
-	validates :type, :presence => true
-								  
+  # Accessors
+  attr_accessible :type, :time
+  
+  # Relationships
+  has_and_belongs_to_many :users
+  
+  # Validation
+  validates :time, :presence => true
+  validates :type, :presence => true
+                  
 end
 
 class FacebookConversation < Conversation; end
