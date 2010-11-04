@@ -19,7 +19,7 @@ class Account < ActiveRecord::Base
 
   # Accessors
   attr_accessible :type, :last_sync_time
-  
+
   # Relationships
   belongs_to :user
 
