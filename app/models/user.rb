@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   protected
     
   def make_activation_code
+    return if activation_code
     self.activation_code = self.class.make_token
     self.deleted_at = nil
   end
