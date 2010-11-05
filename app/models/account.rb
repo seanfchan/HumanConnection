@@ -18,7 +18,7 @@
 class Account < ActiveRecord::Base
 
   # Accessors
-  attr_accessible :type, :last_sync_time
+  attr_accessible :login, :password, :oath_token, :type, :last_sync_time
 
   # Relationships
   belongs_to :user

@@ -12,7 +12,7 @@ HumanConnections::Application.routes.draw do
   match '/activate/:activation_code' => 'users#activate', :as => :activate, :activation_code => nil
 
   resources :accounts
-
+  resources :home
   resources :users
 
   # The priority is based upon order of creation:
@@ -64,7 +64,7 @@ HumanConnections::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'sessions#new'
+  root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 

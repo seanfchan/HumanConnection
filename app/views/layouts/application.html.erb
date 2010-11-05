@@ -8,6 +8,10 @@
 </head>
 <body>
 
+<div class="user">
+  <%= link_to "Logout", :logout unless !logged_in? %>
+</div>
+
 <%= yield %>
 
 </body>

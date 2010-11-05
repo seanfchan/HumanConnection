@@ -16,12 +16,9 @@
   <tr>
     <td><%= account.login %></td>
     <td><%= account.password %></td>
-    <td><%= account.account_type %></td>
+    <td><%= account.type %></td>
     <td><%= account.oath_token %></td>
     <td><%= account.last_sync_time %></td>
-    <td><%= link_to 'Show', account %></td>
-    <td><%= link_to 'Edit', edit_account_path(account) %></td>
-    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

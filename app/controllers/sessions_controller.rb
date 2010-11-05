@@ -1,7 +1,5 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
 
   # render new.rhtml
   def new
@@ -9,7 +7,6 @@ class SessionsController < ApplicationController
 
   def create
     logout_keeping_session!
-    debugger
     user = User.authenticate(params[:email], params[:password])
     if user
       # Protects against session fixation attacks, causes request forgery
@@ -19,7 +16,7 @@ class SessionsController < ApplicationController
       self.current_user = user
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
-      redirect_back_or_default('/', :notice => "Logged in successfully")
+      redirect_back_or_default('/home', :notice => "Logged in successfully")
     else
       note_failed_signin
       @email       = params[:email]

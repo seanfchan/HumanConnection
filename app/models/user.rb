@@ -8,14 +8,12 @@ class User < ActiveRecord::Base
   include Authorization::StatefulRoles
   set_table_name 'users'
 
-  #validates :name,  :format     => { :with => Authentication.name_regex, :message => Authentication.bad_name_message },
-  #                  :length     => { :maximum => 100 },
-  #                  :allow_nil  => true
-
   validates :email, :presence   => true,
                     :uniqueness => true,
                     :format     => { :with => Authentication.email_regex, :message => Authentication.bad_email_message },
                     :length     => { :within => 6..100 }
+
+  has_many :accounts
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation

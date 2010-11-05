@@ -3,13 +3,13 @@ class UserMailer < ActionMailer::Base
   def signup_notification(user)
     setup_email(user)
     @subject    += 'Please activate your new account'
-    @url  = "http://localhost:3000/activate/#{user.activation_code}"
+    @url  = "http://#{SITE_URL}/activate/#{user.activation_code}"
   end
   
   def activation(user)
     setup_email(user)
     @subject    += 'Your account has been activated!'
-    @url  = "http://localhost:3000/"
+    @url  = "http://#{SITE_URL}/"
   end
   
   protected

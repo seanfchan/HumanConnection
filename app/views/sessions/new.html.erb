@@ -12,7 +12,8 @@
 <%= check_box_tag 'remember_me', '1', @remember_me %></p>
 -->
 
-<p><%= submit_tag 'Log in' %></p>
-
-<%= link_to 'Create an Account', new_user_path %>
+<p>
+<%= submit_tag 'Log in' %>
+<%= link_to 'Sign up', :signup %>
+</p>
 <% end -%>

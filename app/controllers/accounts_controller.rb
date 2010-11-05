@@ -1,8 +1,10 @@
 class AccountsController < ApplicationController
+  before_filter :login_required
+  
   # GET /accounts
   # GET /accounts.xml
   def index
-    @accounts = Account.all
+    @accounts = current_user.accounts
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +15,7 @@ class AccountsController < ApplicationController
   # GET /accounts/1
   # GET /accounts/1.xml
   def show
-    @account = Account.find(params[:id])
+    @account = current_user.accounts.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +26,8 @@ class AccountsController < ApplicationController
   # GET /accounts/new
   # GET /accounts/new.xml
   def new
-    @account = Account.new
+    debugger
+    @account = current_user.accounts.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -40,7 +43,8 @@ class AccountsController < ApplicationController
   # POST /accounts
   # POST /accounts.xml
   def create
-    @account = Account.new(params[:account])
+    @account = current_user.accounts.new(params[:account])
+    @account.type = params[:type]
 
     respond_to do |format|
       if @account.save
@@ -56,7 +60,7 @@ class AccountsController < ApplicationController
   # PUT /accounts/1
   # PUT /accounts/1.xml
   def update
-    @account = Account.find(params[:id])
+    @account = current_user.accounts.find(params[:id])
 
     respond_to do |format|
       if @account.update_attributes(params[:account])
@@ -72,7 +76,7 @@ class AccountsController < ApplicationController
   # DELETE /accounts/1
   # DELETE /accounts/1.xml
   def destroy
-    @account = Account.find(params[:id])
+    @account = current_user.accounts.find(params[:id])
     @account.destroy
 
     respond_to do |format|

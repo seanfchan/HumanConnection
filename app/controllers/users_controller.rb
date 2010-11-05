@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
   
   # Protect these actions behind an admin login
   # before_filter :admin_required, :only => [:suspend, :unsuspend, :destroy, :purge]
@@ -13,7 +11,6 @@ class UsersController < ApplicationController
   end
  
   def create
-    debugger
     logout_keeping_session!
     @user = User.new(params[:user])
     @user.register! if @user && @user.valid?
@@ -27,7 +24,6 @@ class UsersController < ApplicationController
   end
 
   def activate
-    debugger
     logout_keeping_session!
     user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
     case
