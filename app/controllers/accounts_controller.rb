@@ -26,7 +26,6 @@ class AccountsController < ApplicationController
   # GET /accounts/new
   # GET /accounts/new.xml
   def new
-    debugger
     @account = current_user.accounts.new
 
     respond_to do |format|
