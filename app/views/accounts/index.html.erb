@@ -21,7 +21,34 @@
     <td><%= account.last_sync_time %></td>
   </tr>
 <% end %>
+
 </table>
+
+<br />
+
+<table>
+	<tr>
+		<th>Name</th>
+		<th>Email</th>
+	</tr>
+	
+<% if @gmailConnections %>
+	<% @gmailConnections.contacts.each do |contact| %>
+		<tr>
+			<th><%= contact[0] %></th>
+			<th><%= contact[1] %></th>
+		</tr>
+	<% end %>
+<% end %>
+
+<% if @yahooConnections %>
+	<% @yahooConnections.contacts.each do |contact| %>
+		<tr>
+			<th><%= contact[0] %></th>
+			<th><%= contact[1] %></th>
+		</tr>
+	<% end %>
+<% end %>
 
 <br />
 

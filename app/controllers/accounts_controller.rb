@@ -5,6 +5,15 @@ class AccountsController < ApplicationController
   # GET /accounts.xml
   def index
     @accounts = current_user.accounts
+    @accounts.each do |account|
+      puts account.type
+      case account.type
+      when 'GmailAccount'
+        @gmailConnections = Contacts::Gmail.new(account.login, account.password)
+      when 'YahooAccount'
+        @yahooConnections = Contacts::Gmail.new(account.login, account.password)
+      end
+    end
 
     respond_to do |format|
       format.html # index.html.erb
