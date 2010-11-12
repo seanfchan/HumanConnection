@@ -21,14 +21,14 @@
   </div>
   <div class="field">
     <%= f.label :type%><br />
-    <% [ 'Gmail', 'Yahoo', 'Hotmail', 'Twitter', 'Facebook' ].each do |account_type| %>
+    <% [ 'Gmail', 'Yahoo', 'Hotmail', 'Twitter' ].each do |account_type| %>
       <%= radio_button_tag :type, account_type + "Account", :type == account_type %>
       <%= account_type.humanize %>
     <% end %>
   </div>
   <div class="field">
-    <%= f.label :oath_token %><br />
-    <%= f.text_field :oath_token %>
+    <%= f.label :oauth_token %><br />
+    <%= f.text_field :oauth_token %>
   </div>
   <div class="field">
     <%= f.label :last_sync_time %><br />

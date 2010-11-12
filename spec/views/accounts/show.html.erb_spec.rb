@@ -6,7 +6,7 @@ describe "accounts/show.html.erb" do
       :login => "Login",
       :password => "Password",
       :account_type => 1,
-      :oath_token => "Oath Token"
+      :oauth_token => "Oauth Token"
     ))
   end
 
@@ -19,6 +19,6 @@ describe "accounts/show.html.erb" do
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
     rendered.should match(/1/)
     # Run the generator again with the --webrat-matchers flag if you want to use webrat matchers
-    rendered.should match(/Oath Token/)
+    rendered.should match(/Oauth Token/)
   end
 end

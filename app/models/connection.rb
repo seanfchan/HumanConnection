@@ -1,4 +1,17 @@
 # == Schema Information
+# Schema version: 20101103135942
+#
+# Table name: connections
+#
+#  id            :integer         not null, primary key
+#  type          :string(255)
+#  user_id       :integer
+#  connection_id :integer
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
+# == Schema Information
 # Schema version: 20101031180130
 #
 # Table name: connections

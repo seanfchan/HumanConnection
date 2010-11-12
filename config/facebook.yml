@@ -1,0 +1,7 @@
+#config/facebook.yml
+
+app_id: '157680634273999'
+api_key: '5041bf0379d049c993576818ca8acbc6'
+app_secret: '7342da07acdd457a66f094a8bce9cef7'
+perms: 'email,user_photos,publish_stream,offline_access'
+

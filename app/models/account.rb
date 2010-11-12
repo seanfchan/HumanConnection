@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101031200251
+# Schema version: 20101103135942
 #
 # Table name: accounts
 #
@@ -7,7 +7,7 @@
 #  type           :string(255)
 #  login          :string(255)
 #  password       :string(255)
-#  oath_token     :string(255)
+#  oauth_token    :string(255)
 #  phone_number   :string(255)
 #  last_sync_time :datetime
 #  user_id        :integer
@@ -17,19 +17,27 @@
 
 class Account < ActiveRecord::Base
 
+  protected
+
   # Accessors
-  attr_accessible :login, :password, :oath_token, :type, :last_sync_time
+  attr_accessible :type, :last_sync_time, :user_id
 
   # Relationships
   belongs_to :user
 
   # Validation
-  validates :user_id, :presence => true
+  # Don't allow duplicate logins for same account type
+  validates :user_id, :presence => true,
+                      :uniqueness => {:scope => [:type, :login]}
   validates :type, :presence => true
+
 end
 
 # Email Accounts
 class EmailAccount < Account
+  
+  protected
+  
   attr_accessible :login, :password
   validates :login,    :presence => true
   validates :password, :presence => true
@@ -40,6 +48,9 @@ class YahooAccount < Account; end
 
 # Phone Accounts
 class PhoneAccount < Account
+
+  protected
+
   attr_accessible :phone_number
   validates :phone_number, :presence => true
 end
@@ -50,9 +61,11 @@ class BlackBerryAccount < PhoneAccount; end
 
 # Social Networking Accounts
 class SocialNetworkAccount < Account
-  attr_accessible :oath_token
-  validates :oath_token, :presence => true
+
+  protected
+
+  attr_accessible :login, :oauth_token
 end
-class TwitterAccount < SocialNetworkAccount; end
 class FacebookAccount < SocialNetworkAccount; end
+class TwitterAccount < SocialNetworkAccount; end
 class MyspaceAccount < SocialNetworkAccount; end

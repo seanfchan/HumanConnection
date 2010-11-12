@@ -6,7 +6,7 @@ describe "accounts/new.html.erb" do
       :login => "MyString",
       :password => "MyString",
       :account_type => 1,
-      :oath_token => "MyString"
+      :oauth_token => "MyString"
     ).as_new_record)
   end
 
@@ -18,7 +18,7 @@ describe "accounts/new.html.erb" do
       assert_select "input#account_login", :name => "account[login]"
       assert_select "input#account_password", :name => "account[password]"
       assert_select "input#account_account_type", :name => "account[account_type]"
-      assert_select "input#account_oath_token", :name => "account[oath_token]"
+      assert_select "input#account_oauth_token", :name => "account[oauth_token]"
     end
   end
 end

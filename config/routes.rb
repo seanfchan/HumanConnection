@@ -1,6 +1,13 @@
 HumanConnections::Application.routes.draw do
   resource :session, :only => [:new, :create, :destroy]
 
+  resources :facebook_accounts, :controller => 'facebook_accounts' do
+    collection do
+      get :new
+      get :callback
+    end
+  end
+  
   match 'signup' => 'users#new', :as => :signup
 
   match 'register' => 'users#create', :as => :register

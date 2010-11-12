@@ -5,7 +5,7 @@
     <th>Login</th>
     <th>Password</th>
     <th>Account type</th>
-    <th>Oath token</th>
+    <th>Oauth token</th>
     <th>Last sync time</th>
     <th></th>
     <th></th>
@@ -17,7 +17,7 @@
     <td><%= account.login %></td>
     <td><%= account.password %></td>
     <td><%= account.type %></td>
-    <td><%= account.oath_token %></td>
+    <td><%= account.oauth_token %></td>
     <td><%= account.last_sync_time %></td>
   </tr>
 <% end %>
@@ -49,7 +49,9 @@
 		</tr>
 	<% end %>
 <% end %>
+</table>
 
 <br />
 
-<%= link_to 'New Account', new_account_path %>
+<%= link_to 'New Account', new_account_path %> <br />
+<%= link_to 'New Facebook Account', new_facebook_account_path %>
