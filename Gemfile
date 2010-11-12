@@ -7,8 +7,8 @@ gem 'rails', '3.0.1'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
-# Use unicorn as the web server
-# gem 'unicorn'
+# Use mongrel as the web server
+gem 'mongrel', '>= 1.2.0.pre2'
 
 # Deploy with Capistrano
 # gem 'capistrano'
@@ -43,3 +43,6 @@ end
 
 gem 'contacts'
 gem 'hpricot'
+gem 'fbgraph'
+gem 'oauth2'
+gem 'json'
