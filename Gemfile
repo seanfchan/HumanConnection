@@ -44,5 +44,6 @@ end
 gem 'contacts'
 gem 'hpricot'
 gem 'fbgraph'
+gem 'twitter'
 gem 'oauth2'
 gem 'json'

@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(:version => 20101103135942) do
     t.string   "login"
     t.string   "password"
     t.string   "oauth_token"
+    t.string   "oauth_secret"
     t.string   "phone_number"
     t.datetime "last_sync_time"
     t.integer  "user_id"

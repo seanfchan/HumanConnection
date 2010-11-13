@@ -8,6 +8,13 @@ HumanConnections::Application.routes.draw do
     end
   end
   
+  resources :twitter_accounts, :controller => 'twitter_accounts' do
+    collection do
+      get :new
+      get :callback
+    end
+  end
+  
   match 'signup' => 'users#new', :as => :signup
 
   match 'register' => 'users#create', :as => :register

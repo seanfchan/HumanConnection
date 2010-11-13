@@ -4,19 +4,21 @@ class FacebookAccountsController < ApplicationController
   before_filter :login_required
 
   def new
-    redirect_to fb_client.authorization.authorize_url(:redirect_uri => callback_facebook_accounts_url, 
-                                                      :scope => @@fb_config["perms"])
+    @account = FacebookAccount.new
+    redirect_to @account.client.authorization.authorize_url(:redirect_uri => callback_facebook_accounts_url, 
+                                                            :scope => FacebookAccount.config["perms"])
   end
 
   def callback
-    access_token = fb_client.authorization.process_callback(params[:code], 
-                                                            :redirect_uri => callback_facebook_accounts_url)
-    
-    user_json = fb_client.selection.me.info!
-
     @account = FacebookAccount.new
-    @account.login = user_json["email"]
+    access_token = @account.client.authorization.process_callback(params[:code], 
+                                                                  :redirect_uri => callback_facebook_accounts_url)
+
     @account.oauth_token = access_token
+
+    # We should now be authenticated so fill in email
+    user_json = @account.client.selection.me.info!
+    @account.login = user_json["email"]
     current_user.accounts << @account
 
     respond_to do |format|

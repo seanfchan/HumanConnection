@@ -38,6 +38,7 @@ GEM
     contacts (1.2.4)
       gdata (= 1.1.1)
       json (>= 0.4.1)
+    crack (0.1.8)
     daemons (1.0.10)
     diff-lcs (1.1.2)
     erubis (2.6.6)
@@ -55,6 +56,8 @@ GEM
     gem_plugin (0.2.3)
     hashie (0.4.0)
     hpricot (0.8.3)
+    httparty (0.6.1)
+      crack (= 0.1.8)
     i18n (0.4.2)
     json (1.4.6)
     json (1.4.6-x86-mingw32)
@@ -71,6 +74,7 @@ GEM
       gem_plugin (~> 0.2.3)
     multi_json (0.0.5)
     multipart-post (1.0.1)
+    oauth (0.4.4)
     oauth2 (0.1.0)
       faraday (~> 0.5.0)
       multi_json (~> 0.0.4)
@@ -123,6 +127,11 @@ GEM
     thor (0.14.3)
     treetop (1.4.8)
       polyglot (>= 0.3.1)
+    twitter (0.9.12)
+      hashie (~> 0.4.0)
+      httparty (~> 0.6.1)
+      multi_json (~> 0.0.4)
+      oauth (~> 0.4.3)
     tzinfo (0.3.23)
 
 PLATFORMS
@@ -141,3 +150,4 @@ DEPENDENCIES
   rspec-rails (= 2.0.1)
   ruby-debug19
   sqlite3-ruby
+  twitter

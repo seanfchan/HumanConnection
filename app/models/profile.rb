@@ -11,6 +11,18 @@
 #
 
 # == Schema Information
+# Schema version: 20101103135942
+#
+# Table name: profiles
+#
+#  id         :integer         not null, primary key
+#  full_name  :string(255)
+#  user_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# == Schema Information
 # Schema version: 20101031200251
 #
 # Table name: profiles
