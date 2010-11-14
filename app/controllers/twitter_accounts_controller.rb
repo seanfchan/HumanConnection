@@ -5,7 +5,7 @@ class TwitterAccountsController < ApplicationController
 
   def new
     @account = TwitterAccount.new
-    request_token = @account.request_token
+    request_token = @account.request_token(:oauth_callback => callback_twitter_accounts_url)
     session['twit_rtoken'] = request_token.token
     session['twit_rsecret'] = request_token.secret
     redirect_to request_token.authorize_url(:oauth_callback => callback_twitter_accounts_url)
@@ -23,7 +23,8 @@ class TwitterAccountsController < ApplicationController
     session.delete('twit_rsecret')
 
     # We should now be authorized so fill in the login name
-    #@account.login =
+    user_json = @account.client.verify_credentials
+    @account.login = user_json.screen_name
 
     current_user.accounts << @account
 

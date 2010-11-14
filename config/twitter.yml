@@ -6,5 +6,4 @@ oauth_secret: "tOPkGcjCKSUJdxEfzS0jnDQuKnjmWChtxKouSvIDDJw"
 consumer_token: "ILqxL7tNcxxMHsWNDOySQ"
 consumer_secret: "h8i3N7dypdJbvbPgYpmvcfCsm05Bc7fi108InTJhSoU"
 site: "http://api.twitter.com"
-authorize_path: "/oauth/request_token"
 

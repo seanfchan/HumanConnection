@@ -1,28 +1,4 @@
 # == Schema Information
-# Schema version: 20101103135942
-#
-# Table name: conversations
-#
-#  id         :integer         not null, primary key
-#  type       :string(255)
-#  time       :datetime
-#  created_at :datetime
-#  updated_at :datetime
-#
-
-# == Schema Information
-# Schema version: 20101103135942
-#
-# Table name: conversations
-#
-#  id         :integer         not null, primary key
-#  type       :string(255)
-#  time       :datetime
-#  created_at :datetime
-#  updated_at :datetime
-#
-
-# == Schema Information
 # Schema version: 20101031052806
 #
 # Table name: conversations

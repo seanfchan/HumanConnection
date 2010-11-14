@@ -11,10 +11,7 @@ class FacebookAccountsController < ApplicationController
 
   def callback
     @account = FacebookAccount.new
-    access_token = @account.client.authorization.process_callback(params[:code], 
-                                                                  :redirect_uri => callback_facebook_accounts_url)
-
-    @account.oauth_token = access_token
+    @account.authorize(params[:code], :redirect_uri => callback_facebook_accounts_url)
 
     # We should now be authenticated so fill in email
     user_json = @account.client.selection.me.info!
