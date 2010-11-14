@@ -13,10 +13,9 @@ class TwitterAccountsController < ApplicationController
 
   def callback
     @account = TwitterAccount.new
-
-    access_token = @account.authorize(session['twit_rtoken'],
-                                      session['twit_rsecret'],
-                                      {:oauth_verifier => params[:oauth_verifier]})
+    @account.authorize(session['twit_rtoken'],
+                       session['twit_rsecret'],
+                       {:oauth_verifier => params[:oauth_verifier]})
 
     # Remove stuff from the session
     session.delete('twit_rtoken')

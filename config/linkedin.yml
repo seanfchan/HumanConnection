@@ -1,0 +1,5 @@
+#config/linked_in.yml
+
+consumer_token: "bNH38cXjFinabE2s5LQWq_0SaTDibv1K87k147GnfuITgSMgEyJ68cW5OPpsStu8"
+consumer_secret: "buuOy5gVNnOOrpKy9hhFojDMS3JLEOnEiWhuCAta78VNudB4uPSaskWaWFxXNl3h"
+site: "https://api.linkedin.com/uas"

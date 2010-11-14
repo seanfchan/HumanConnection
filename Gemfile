@@ -41,10 +41,12 @@ group :test do
 	gem 'annotate-models', '1.0.4'
 end
 
+gem 'oauth', '0.3.5'
+gem 'oauth2'
+gem 'json'
+gem 'libxml-ruby'
 gem 'contacts'
 gem 'hpricot'
 gem 'fbgraph'
 gem 'twitter', '>= 1.0.0.pre'
-gem 'oauth2'
-gem 'oauth'
-gem 'json'
+gem 'linkedin'

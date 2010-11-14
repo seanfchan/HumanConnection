@@ -1,0 +1,2 @@
+module LinkedInAccountsHelper
+end

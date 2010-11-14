@@ -8,6 +8,13 @@ HumanConnections::Application.routes.draw do
     end
   end
   
+  resources :linked_in_accounts, :controller => 'linked_in_accounts' do
+    collection do
+      get :new
+      get :callback
+    end
+  end
+  
   resources :twitter_accounts, :controller => 'twitter_accounts' do
     collection do
       get :new

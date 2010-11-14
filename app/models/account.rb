@@ -36,9 +36,6 @@ end
 
 # Email Accounts
 class EmailAccount < Account
-
-  protected
-
   attr_accessible :login, :password
   validates :login,    :presence => true
   validates :password, :presence => true
@@ -49,9 +46,6 @@ class YahooAccount < Account; end
 
 # Phone Accounts
 class PhoneAccount < Account
-
-  protected
-
   attr_accessible :phone_number
   validates :phone_number, :presence => true
 end

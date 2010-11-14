@@ -3,7 +3,7 @@ require 'account'
 class FacebookAccount < Account
 
   def authorized?
-    !@oauth_token.blank?
+    !oauth_token.blank?
   end
   
   def authorize(code, options = {})

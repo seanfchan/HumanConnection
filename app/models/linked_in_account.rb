@@ -7,30 +7,11 @@ class LinkedInAccount < Account
     !oauth_token.blank? && !oauth_secret.blank?
   end
 
-  def authorize(rtoken, rsecret, options = {})
-    request_token = OAuth::RequestToken.new(
-      consumer, rtoken, rsecret
-    )
-    access_token = request_token.get_access_token(options)
-    self.oauth_token = access_token.token
-    self.oauth_secret = access_token.secret
+  def authorize(rtoken, rsecret, oauth_verifier)
+    access_token = client.authorize_from_request(rtoken, rsecret, oauth_verifier)
+    self.oauth_token = access_token[0]
+    self.oauth_secret = access_token[1]
     access_token
-  end
-
-  def request_token(options = {})
-    consumer.get_request_token(options)
-  end
-
-  def consumer
-    @consumer ||= begin
-                    options = {:site => @@config["site"], 
-                      :request_endpoint => @@config["site"],
-                      :request_token_path => "/oauth/requestToken",
-                      :access_token_path => "/oauth/accessToken"}
-                    OAuth::Consumer.new(@@config["consumer_token"],
-                                        @@config["consumer_secret"],
-                                        options)
-                  end
   end
 
   def client
