@@ -1,40 +1,36 @@
 HumanConnections::Application.routes.draw do
   resource :session, :only => [:new, :create, :destroy]
+  resource :home, :only => [:index]
 
-  resources :facebook_accounts, :controller => 'facebook_accounts' do
-    collection do
-      get :new
+  resources :facebook_accounts, :only => [:index, :new] do
+    member do
       get :callback
     end
   end
   
-  resources :linked_in_accounts, :controller => 'linked_in_accounts' do
-    collection do
-      get :new
+  resources :linked_in_accounts, :only => [:index, :new] do
+    member do
       get :callback
     end
   end
   
-  resources :twitter_accounts, :controller => 'twitter_accounts' do
-    collection do
-      get :new
+  resources :twitter_accounts, :only => [:index, :new] do
+    member do
       get :callback
     end
   end
   
+  match 'home' => 'home#index', :as => :home
   match 'signup' => 'users#new', :as => :signup
-
   match 'register' => 'users#create', :as => :register
-
   match 'login' => 'sessions#new', :as => :login
-
   match 'logout' => 'sessions#destroy', :as => :logout
-
   match '/activate/:activation_code' => 'users#activate', :as => :activate, :activation_code => nil
+  match 'accounts' => 'accounts#index', :as => :accounts
 
-  resources :accounts
-  resources :home
-  resources :users
+  resource  :users
+  resources :email_accounts
+  resources :phone_accounts
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
