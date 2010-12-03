@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Account type:</b>
+  <%= @account.class %>
+</p>
+
+<p>
+  <b>Login:</b>
+  <%= @account.login if @account.respond_to? "login" %>
+</p>
+
+<p>
+  <b>Password:</b>
+  <%= @account.password if @account.respond_to? "password" %>
+</p>
+
+<p>
+  <b>Oath token:</b>
+  <%= @account.oauth_token if @account.respond_to? "oauth_token" %>
+</p>
+
+<p>
+  <b>Oath secret:</b>
+  <%= @account.oauth_secret if @account.respond_to? "oauth_secret" %>
+</p>
+
+<p>
+  <b>Last sync time:</b>
+  <%= @account.last_sync_time if @account.respond_to? "last_sync_time" %>
+</p>
+
+
+<%= link_to 'Edit', edit_email_account_path(@account) %>
+<%= link_to 'Back', :back %>

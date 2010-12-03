@@ -28,14 +28,12 @@ class User < ActiveRecord::Base
   set_table_name 'users'
 
   validates :email, :presence   => true,
-                    :uniqueness => true,
-                    :format     => { :with => Authentication.email_regex, :message => Authentication.bad_email_message },
-                    :length     => { :within => 6..100 }
+    :uniqueness => true,
+    :format     => { :with => Authentication.email_regex, :message => Authentication.bad_email_message },
+    :length     => { :within => 6..100 }
 
-  has_one  :profile
-  has_many :accounts
-  has_many :connections
-  has_many :connectees, :through => :connections
+  # Relationships
+  has_one  :person
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
@@ -59,7 +57,7 @@ class User < ActiveRecord::Base
   end
 
   protected
-    
+
   def make_activation_code
     return if activation_code
     self.activation_code = self.class.make_token

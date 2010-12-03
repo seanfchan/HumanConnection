@@ -16,9 +16,9 @@ class UsersController < ApplicationController
     @user.register! if @user && @user.valid?
     success = @user && @user.valid?
     if success && @user.errors.empty?
-      redirect_back_or_default('/', :notice => "Thanks for signing up!  We're sending you an email with your activation code.")
+      redirect_back_or_default('/', :flash => { :notice => "Thanks for signing up!  We're sending you an email with your activation code."})
     else
-      flash.now[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
       render :action => 'new'
     end
   end
@@ -29,6 +29,9 @@ class UsersController < ApplicationController
     case
     when (!params[:activation_code].blank?) && user && !user.active?
       user.activate!
+      # Once activated associate a person with them. This needs to become a lookup to 
+      # possibly match them with a pre-existing person @ some point
+      user.person = Person.new 
       redirect_to '/login', :notice => "Signup complete! Please sign in to continue."
     when params[:activation_code].blank?
       redirect_back_or_default('/', :flash => { :error => "The activation code was missing.  Please follow the URL from your email." })

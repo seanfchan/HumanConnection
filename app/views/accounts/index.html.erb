@@ -1,62 +1,72 @@
 <h1>Listing accounts</h1>
 
+<h2>Email Accounts</h2>
+<%= link_to 'Email Accounts', email_accounts_path %> 
 <table>
   <tr>
+    <th>Type</th>
     <th>Login</th>
     <th>Password</th>
-    <th>Account type</th>
     <th>Oauth token</th>
     <th>Oauth secret</th>
     <th>Last sync time</th>
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
-<% @accounts.each do |account| %>
+<% @allEmailAccounts.each do |account| %>
   <tr>
-    <td><%= account.login %></td>
-    <td><%= account.password %></td>
-    <td><%= account.type %></td>
-    <td><%= account.oauth_token %></td>
-    <td><%= account.oauth_secret %></td>
-    <td><%= account.last_sync_time %></td>
+    <td><%= account.class if account.respond_to? "class" %></td>
+    <td><%= account.login if account.respond_to? "login" %></td>
+    <td><%= account.password if account.respond_to? "password" %></td>
+    <td><%= account.oauth_token if account.respond_to? "oauth_token" %></td>
+    <td><%= account.oauth_secret if account.respond_to? "oauth_secret" %></td>
+    <td><%= account.last_sync_time if account.respond_to? "last_sync_time" %></td>
   </tr>
 <% end %>
-
 </table>
 
 <br />
 
-<h2>Email Accounts</h2>
+<h2>Phone Accounts</h2>
+<%= link_to 'Phone Accounts', phone_accounts_path %> 
 <table>
 	<tr>
-		<th>Name</th>
-		<th>Email</th>
+		<th>Type</th>
+		<th>Number</th>
+		<th>Last sync time</th>
 	</tr>
-	
-<% if @gmailConnections %>
-	<% @gmailConnections.contacts.each do |contact| %>
-		<tr>
-			<th><%= contact[0] %></th>
-			<th><%= contact[1] %></th>
-		</tr>
-	<% end %>
-<% end %>
-
-<% if @yahooConnections %>
-	<% @yahooConnections.contacts.each do |contact| %>
-		<tr>
-			<th><%= contact[0] %></th>
-			<th><%= contact[1] %></th>
-		</tr>
-	<% end %>
+<% @allPhoneAccounts.each do |account| %>
+  <tr>
+    <td><%= account.class if account.respond_to? "class" %></td>
+    <td><%= account.phone_number if account.respond_to? "phone_number" %></td>
+    <td><%= account.last_sync_time if account.respond_to? "last_sync_time" %></td>
+  </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Account', new_account_path %> <br />
-<%= link_to 'New Facebook Account', new_facebook_account_path %> <br />
-<%= link_to 'New Twitter Account', new_twitter_account_path %> <br />
-<%= link_to 'New LinkedIn Account', new_linked_in_account_path %> <br />
+<h2>Social Networking Accounts</h2> 
+<%= link_to 'Facebook Accounts', facebook_accounts_path %> 
+<%= link_to 'Twitter Accounts',  twitter_accounts_path %> 
+<%= link_to 'LinkedIn Accounts', linked_in_accounts_path %> 
+<table>
+	<tr>
+		<th>Type</th>
+		<th>Unique Id</th>
+		<th>Oauth token</th>
+		<th>Oauth secret</th>
+		<th>Last sync time</th>
+	</tr>
+<% @allSocialAccounts.each do |account| %>
+  <tr>
+    <td><%= account.class if account.respond_to? "class" %></td>
+    <td><%= account.unique_id if account.respond_to? "unique_id" %></td>
+    <td><%= account.oauth_token if account.respond_to? "oauth_token" %></td>
+    <td><%= account.oauth_secret if account.respond_to? "oauth_secret" %></td>
+    <td><%= account.last_sync_time if account.respond_to? "last_sync_time" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

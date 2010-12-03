@@ -10,24 +10,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101103135942) do
+ActiveRecord::Schema.define(:version => 20101119035757) do
 
-  create_table "accounts", :force => true do |t|
-    t.string   "type"
-    t.string   "login"
-    t.string   "password"
-    t.string   "oauth_token"
-    t.string   "oauth_secret"
-    t.string   "phone_number"
+  create_table "android_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "AndroidAccounts"
+    t.integer  "person_id"
     t.datetime "last_sync_time"
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "phone_number"
+  end
+
+  create_table "blackberry_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "BlackberryAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "phone_number"
   end
 
   create_table "connections", :force => true do |t|
     t.string   "type"
-    t.integer  "user_id"
+    t.integer  "person_id"
     t.integer  "connection_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -41,20 +46,105 @@ ActiveRecord::Schema.define(:version => 20101103135942) do
   end
 
   create_table "conversations_users", :id => false, :force => true do |t|
-    t.integer "user_id"
+    t.integer "person_id"
     t.integer "conversation_id"
   end
 
-  create_table "people", :force => true do |t|
+  create_table "email_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "EmailAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "login"
+    t.string   "password"
+  end
+
+  create_table "facebook_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "FacebookAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "unique_id"
+    t.string   "oauth_token"
+  end
+
+  create_table "gmail_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "GmailAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "login"
+    t.string   "password"
+    t.string   "oauth_token"
+    t.string   "oauth_secret"
+  end
+
+  create_table "hotmail_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "HotmailAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "login"
+    t.string   "password"
+    t.string   "oauth_token"
+    t.string   "oauth_secret"
+  end
+
+  create_table "iphone_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "IphoneAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "phone_number"
+  end
+
+  create_table "linked_in_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "LinkedInAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "unique_id"
+    t.string   "oauth_token"
+    t.string   "oauth_secret"
+  end
+
+  create_table "people", :force => true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "phone_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "PhoneAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "phone_number"
   end
 
   create_table "profiles", :force => true do |t|
     t.string   "full_name"
-    t.integer  "user_id"
+    t.integer  "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "twitter_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "TwitterAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "unique_id"
+    t.string   "oauth_token"
+    t.string   "oauth_secret"
   end
 
   create_table "users", :force => true do |t|
@@ -72,5 +162,26 @@ ActiveRecord::Schema.define(:version => 20101103135942) do
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+
+  create_table "win_mob_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "WinMobAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "phone_number"
+  end
+
+  create_table "yahoo_accounts", :force => true do |t|
+    t.string   "account_type",   :default => "YahooAccounts"
+    t.integer  "person_id"
+    t.datetime "last_sync_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "login"
+    t.string   "password"
+    t.string   "oauth_token"
+    t.string   "oauth_secret"
+  end
 
 end

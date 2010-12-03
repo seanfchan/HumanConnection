@@ -1,0 +1,22 @@
+<h1>Listing Facebook accounts</h1>
+
+<table>
+  <tr>
+    <th>Unique Id</th>
+    <th>Oauth token</th>
+    <th>Last sync time</th>
+  </tr>
+
+<% @accounts.each do |account| %>
+  <tr>
+    <td><%= account.unique_id %></td>
+    <td><%= account.oauth_token %></td>
+    <td><%= account.last_sync_time %></td>
+  </tr>
+<% end %>
+
+</table>
+
+<br />
+
+<%= link_to 'New Account', new_facebook_account_path %> <br />

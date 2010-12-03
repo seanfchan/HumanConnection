@@ -1,8 +1,32 @@
-require 'account'
-require 'oauth'
+# == Schema Information
+# Schema version: 20101119035757
+#
+# Table name: twitter_accounts
+#
+#  id             :integer         not null, primary key
+#  person_id      :integer
+#  last_sync_time :datetime
+#  created_at     :datetime
+#  updated_at     :datetime
+#  unique_id      :string(255)
+#  oauth_token    :string(255)
+#  oauth_secret   :string(255)
+#
 
-class TwitterAccount < Account
-  attr_accessible :oauth_secret
+require 'oauth'
+require 'model_mixins/account_properties'
+
+class TwitterAccount < ActiveRecord::Base
+  include AccountProperties
+  
+  # Accessors
+  attr_accessible :unique_id
+
+  # Validation
+  validates :unique_id, :uniqueness => true,
+                    :presence => true
+  validates :oauth_token, :presence => true
+  validates :oauth_secret, :presence => true
 
   def authorized?
     !oauth_token.blank? && !oauth_secret.blank?
@@ -49,8 +73,5 @@ class TwitterAccount < Account
   end
 
   @@config = YAML::load(File.open("#{::Rails.root.to_s}/config/twitter.yml"))
-
-  validates :oauth_token, :presence => true
-  validates :oauth_secret, :presence => true
 
 end

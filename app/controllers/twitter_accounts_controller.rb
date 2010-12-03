@@ -1,5 +1,3 @@
-require 'account'
-
 class TwitterAccountsController < ApplicationController
   before_filter :login_required
 
@@ -23,20 +21,30 @@ class TwitterAccountsController < ApplicationController
 
     # We should now be authorized so fill in the login name
     user_json = @account.client.verify_credentials
-    @account.login = user_json.screen_name
+    @account.unique_id = user_json.id
 
-    current_user.accounts << @account
+    current_user.person.twitter_accounts << @account
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to( accounts_path, :notice => 'Account was successfully created.') }
+        format.html { redirect_to( :action => 'index', :notice => 'Account was successfully created.') }
         format.xml  { render :xml => @account, :status => :created, :located => @account }
       else
-        format.html { redirect_to accounts_path }
+        format.html { redirect_to :action => 'index' }
         format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
       end
     end
+  end
 
+  # GET /twitter_accounts
+  # GET /twitter_accounts.xml
+  def index
+    @accounts = current_user.person.twitter_accounts
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @accounts }
+    end
   end
 
 end

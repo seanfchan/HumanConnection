@@ -1,0 +1,23 @@
+<h1>Listing Phone accounts</h1>
+
+<table>
+	<tr>
+		<th>Type</th>
+		<th>Number</th>
+		<th>Last sync time</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+<% @accounts.each do |account| %>
+  <tr>
+    <td><%= account.class if account.respond_to? "class" %></td>
+    <td><%= account.phone_number if account.respond_to? "phone_number" %></td>
+    <td><%= account.last_sync_time if account.respond_to? "last_sync_time" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Account', new_phone_account_path %>

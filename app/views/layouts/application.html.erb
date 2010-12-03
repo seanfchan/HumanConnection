@@ -10,7 +10,20 @@
 
 <div class="user">
   <%= link_to "Logout", :logout unless !logged_in? %>
+  <%= link_to "Home", :home unless !logged_in? %>
+  <%= link_to "Accounts", :accounts unless !logged_in? %>
 </div>
+
+<% [:error, :success, :notice].each do |key| %>
+  <% if flash[key] %>
+    
+    <br />
+    
+    <div class="<%= key %>" id="flash_<%= key %>">
+      <%= flash[key] %>
+    </div>
+  <% end %>
+<% end %>
 
 <%= yield %>
 

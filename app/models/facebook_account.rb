@@ -1,6 +1,25 @@
-require 'account'
+# == Schema Information
+# Schema version: 20101119035757
+#
+# Table name: facebook_accounts
+#
+#  id             :integer         not null, primary key
+#  person_id      :integer
+#  last_sync_time :datetime
+#  created_at     :datetime
+#  updated_at     :datetime
+#  unique_id      :string(255)
+#  oauth_token    :string(255)
+#
 
-class FacebookAccount < Account
+require 'oauth'
+require 'model_mixins/account_properties'
+
+class FacebookAccount < ActiveRecord::Base
+  include AccountProperties
+  
+  # Accessors
+  attr_accessible :unique_id
 
   def authorized?
     !oauth_token.blank?
@@ -24,6 +43,9 @@ class FacebookAccount < Account
 
   @@config = YAML::load(File.open("#{::Rails.root.to_s}/config/facebook.yml"))
 
+  # Validation
   validates :oauth_token, :presence => true
+  validates :unique_id, :presence => true, 
+                    :uniqueness => true
 
 end
