@@ -38,4 +38,27 @@ class FacebookAccountsController < ApplicationController
     end
   end
 
+  # DELETE /facebook_accounts/1
+  # DELETE /facebook_accounts/1.xml
+  def destroy
+    @account = current_user.person.facebook_accounts.find(params[:id])
+    @account.destroy
+
+    respond_to do |format|
+      format.html { redirect_to :action => "index" }
+      format.xml  { head :ok }
+    end
+  end
+
+  # GET /facebook_accounts/1
+  # GET /facebook_accounts/1.xml
+  def show
+    @account = current_user.person.facebook_accounts.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml { render :xml => @account }
+    end
+  end
+
 end

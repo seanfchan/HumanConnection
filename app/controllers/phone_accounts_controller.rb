@@ -4,7 +4,17 @@ class PhoneAccountsController < ApplicationController
   # GET /phone_accounts/1
   # GET /phone_accounts/1.xml
   def show
-    @account = current_user.person.all_phone_accounts.find(params[:id])
+    @account = current_user.person.phone_accounts.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml { render :xml => @account }
+    end
+  end
+
+  # GET /phone_accounts/1/edit
+  def edit
+    @account = current_user.person.phone_accounts.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,19 +35,8 @@ class PhoneAccountsController < ApplicationController
   # POST /phone_accounts
   # POST /phone_accounts.xml
   def create
-    @account = PhoneAccount.new
-    begin
-      new_class = params[:type].constantize
-      @account = new_class.new(params[:phone_account])
-
-      # Catch bad class names here
-    rescue NameError
-      flash[:error] = "Please specify an Phone Account type."
-      redirect_to :action => 'new'
-      return
-    end
-
-    @account.person_id = current_user.person.id
+    @account = PhoneAccount.new(params[:phone_account])
+    current_user.person.phone_accounts << @account
 
     respond_to do |format|
       if @account.save
@@ -50,15 +49,26 @@ class PhoneAccountsController < ApplicationController
     end
   end
 
-
   # GET /phone_accounts
   # GET /phone_accounts.xml
   def index
-    @accounts = current_user.person.all_phone_accounts
+    @accounts = current_user.person.phone_accounts
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @accounts }
+    end
+  end
+
+  # DELETE /phone_accounts/1
+  # DELETE /phone_accounts/1.xml
+  def destroy
+    @account = current_user.person.phone_accounts.find(params[:id])
+    @account.destroy
+
+    respond_to do |format|
+      format.html { redirect_to :action => "index" }
+      format.xml  { head :ok }
     end
   end
 
