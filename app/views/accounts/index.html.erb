@@ -1,7 +1,8 @@
 <h1>Listing accounts</h1>
 
+<br/>
+
 <h2>Email Accounts</h2>
-<%= link_to 'Email Accounts', email_accounts_path %> 
 <table>
   <tr>
     <th>Type</th>
@@ -10,6 +11,9 @@
     <th>Oauth token</th>
     <th>Oauth secret</th>
     <th>Last sync time</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
 
 <% @allEmailAccounts.each do |account| %>
@@ -20,6 +24,8 @@
     <td><%= account.oauth_token if account.respond_to? "oauth_token" %></td>
     <td><%= account.oauth_secret if account.respond_to? "oauth_secret" %></td>
     <td><%= account.last_sync_time if account.respond_to? "last_sync_time" %></td>
+    <td><%= link_to 'Show', account %></td>
+    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
@@ -27,18 +33,22 @@
 <br />
 
 <h2>Phone Accounts</h2>
-<%= link_to 'Phone Accounts', phone_accounts_path %> 
 <table>
 	<tr>
 		<th>Type</th>
 		<th>Number</th>
 		<th>Last sync time</th>
+    <th></th>
+    <th></th>
+    <th></th>
 	</tr>
 <% @allPhoneAccounts.each do |account| %>
   <tr>
     <td><%= account.class if account.respond_to? "class" %></td>
     <td><%= account.phone_number if account.respond_to? "phone_number" %></td>
     <td><%= account.last_sync_time if account.respond_to? "last_sync_time" %></td>
+    <td><%= link_to 'Show', account %></td>
+    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
@@ -46,9 +56,6 @@
 <br />
 
 <h2>Social Networking Accounts</h2> 
-<%= link_to 'Facebook Accounts', facebook_accounts_path %> 
-<%= link_to 'Twitter Accounts',  twitter_accounts_path %> 
-<%= link_to 'LinkedIn Accounts', linked_in_accounts_path %> 
 <table>
 	<tr>
 		<th>Type</th>
@@ -56,6 +63,8 @@
 		<th>Oauth token</th>
 		<th>Oauth secret</th>
 		<th>Last sync time</th>
+    <th></th>
+    <th></th>
 	</tr>
 <% @allSocialAccounts.each do |account| %>
   <tr>
@@ -64,9 +73,14 @@
     <td><%= account.oauth_token if account.respond_to? "oauth_token" %></td>
     <td><%= account.oauth_secret if account.respond_to? "oauth_secret" %></td>
     <td><%= account.last_sync_time if account.respond_to? "last_sync_time" %></td>
+    <td><%= link_to 'Show', account %></td>
+    <td><%= link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
+<br />
 
+New Account Type: <%= select(:type, :type_val, AccountsController::TYPES, {}, {:id => "account_select", :onchange => "document.getElementById('new_account_link').href = (document.getElementById('account_select').value + '_accounts/new').toLowerCase();"}) %>
+<%= link_to 'Click Me', new_facebook_account_path, {:id => "new_account_link"} %> 

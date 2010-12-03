@@ -1,6 +1,9 @@
 class AccountsController < ApplicationController
   before_filter :login_required
 
+  TYPES = ['Facebook', 'Twitter', 'Linked_In', 'Win_Mob', 'Android', 
+    'Blackberry', 'iPhone', 'Gmail', 'Hotmail', 'Yahoo', 'Email', 'Phone']
+
   # GET /accounts
   # GET /accounts.xml
   def index

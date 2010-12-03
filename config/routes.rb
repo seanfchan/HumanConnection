@@ -2,20 +2,20 @@ HumanConnections::Application.routes.draw do
   resource :session, :only => [:new, :create, :destroy]
   resource :home, :only => [:index]
 
-  resources :facebook_accounts, :only => [:index, :new] do
-    member do
+  resources :facebook_accounts, :only => [:show, :destroy, :new] do
+    collection do
       get :callback
     end
   end
   
-  resources :linked_in_accounts, :only => [:index, :new] do
-    member do
+  resources :linked_in_accounts, :only => [:show, :destroy, :new] do
+    collection do
       get :callback
     end
   end
   
-  resources :twitter_accounts, :only => [:index, :new] do
-    member do
+  resources :twitter_accounts, :only => [:show, :destroy, :new] do
+    collection do
       get :callback
     end
   end
@@ -28,9 +28,9 @@ HumanConnections::Application.routes.draw do
   match '/activate/:activation_code' => 'users#activate', :as => :activate, :activation_code => nil
   match 'accounts' => 'accounts#index', :as => :accounts
 
-  resource  :users
-  resources :email_accounts
-  resources :phone_accounts
+  resource :users
+  resources :email_accounts, :gmail_accounts, :hotmail_accounts, :yahoo_accounts
+  resources :phone_accounts, :android_accounts, :iphone_accounts, :blackberry_accounts, :win_mob_accounts
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

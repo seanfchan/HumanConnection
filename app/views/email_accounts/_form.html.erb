@@ -19,13 +19,6 @@
     <%= f.label :password %><br />
     <%= f.text_field :password %>
   </div>
-  <div class="field">
-    <%= f.label :type %><br />
-    <% [ 'Email', 'Gmail', 'Yahoo', 'Hotmail' ].each do |account_type| %>
-      <%= radio_button_tag :type, account_type + "Account", @account.class == (account_type + "Account") %>
-      <%= account_type.humanize %>
-    <% end %>
-  </div>
 
   <div class="field">
     <%= f.label :last_sync_time %><br />
