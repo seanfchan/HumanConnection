@@ -40,7 +40,7 @@ class AndroidAccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to( :action => 'index', :notice => 'Account was successfully created.') }
+        format.html { redirect_to( accounts_path, :notice => 'Account was successfully created.') }
         format.xml  { render :xml => @account, :status => :created, :location => @account }
       else
         format.html { render :action => "new" }
@@ -56,7 +56,7 @@ class AndroidAccountsController < ApplicationController
 
     respond_to do |format|
       if @account.update_attributes(params[:android_account])
-        format.html { redirect_to( :action => "index", :notice => 'Account was successfully updated.') }
+        format.html { redirect_to( accounts_path, :notice => 'Account was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -83,7 +83,7 @@ class AndroidAccountsController < ApplicationController
     @account.destroy
 
     respond_to do |format|
-      format.html { redirect_to :action => "index" }
+      format.html { redirect_to accounts_path }
       format.xml  { head :ok }
     end
   end
