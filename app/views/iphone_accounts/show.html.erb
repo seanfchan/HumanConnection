@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Account type:</b>
+  <%= @account.class %>
+</p>
+
+<p>
+  <b>Number:</b>
+  <%= @account.phone_number %>
+</p>
+
+<p>
+  <b>Last sync time:</b>
+  <%= @account.last_sync_time %>
+</p>
+
+
+<%= link_to 'Edit', edit_iphone_account_path(@account) %> |
+<%= link_to 'Back', :back %>
