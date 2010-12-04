@@ -55,6 +55,15 @@ class TwitterAccount < ActiveRecord::Base
                   end
   end
 
+  # Returns an existing account if found
+  def existing
+    return self.class.find_by_unique_id(unique_id)
+  end
+
+  def mergeable(other)
+    return unique_id == other.unique_id
+  end
+
   def client
     return nil if !authorized?
     @client ||= begin

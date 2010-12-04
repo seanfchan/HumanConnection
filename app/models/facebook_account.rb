@@ -30,7 +30,16 @@ class FacebookAccount < ActiveRecord::Base
     self.oauth_token = access_token
     access_token
   end
-  
+
+  # Returns an existing account if found
+  def existing
+    return self.class.find_by_unique_id(unique_id)
+  end
+
+  def mergeable(other)
+    return unique_id == other.unique_id
+  end
+
   def client
     @client ||= FBGraph::Client.new(:client_id => @@config["app_id"],
                                     :secret_id => @@config["app_secret"],

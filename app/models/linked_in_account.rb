@@ -17,13 +17,13 @@ require 'model_mixins/account_properties'
 
 class LinkedInAccount < ActiveRecord::Base
   include AccountProperties
-  
+
   # Accessors
   attr_accessible :unique_id
 
   # Validation
   validates :unique_id, :uniqueness => true,
-                    :presence => true
+    :presence => true
   validates :oauth_token, :presence => true
   validates :oauth_secret, :presence => true
 
@@ -36,6 +36,15 @@ class LinkedInAccount < ActiveRecord::Base
     self.oauth_token = access_token[0]
     self.oauth_secret = access_token[1]
     access_token
+  end
+
+  # Returns an existing account if found
+  def existing
+    return self.class.find_by_unique_id(unique_id)
+  end
+
+  def mergeable(other)
+    return unique_id == other.unique_id
   end
 
   def client

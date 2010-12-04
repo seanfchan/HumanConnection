@@ -16,12 +16,23 @@ module AccountProperties
       validates :person_id, :presence => true
       validates :account_type, :presence => true
 
-      def == (other)
-        if other.respond_to? "id"
-          return id == other.id
-        else
-          return false
-        end
+      # Each account needs to specify this.
+      # Ex. Social Accounts use a unique_id check. 
+      #     Email Accounts should use email address.
+      #     etc...
+      def mergeable(other)
+        return true
+      end
+
+      # Default merge function for accounts. 
+      # Copy over all columns if they are not already filled.
+      def merge(other)
+        # Make sure these should be merged
+        return if !mergeable(other)
+
+        self.class.column_names.each { |column|
+          eval "self.#{column} = other.#{column} if self.#{column}.blank?"
+        }
       end
 
     end

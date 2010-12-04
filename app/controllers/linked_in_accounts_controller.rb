@@ -4,31 +4,43 @@ class LinkedInAccountsController < ApplicationController
   def new
     @account = LinkedInAccount.new
     request_token = @account.client.request_token(:oauth_callback => callback_linked_in_accounts_url)
-    session['linkedin_rtoken'] = request_token.token
-    session['linkedin_rsecret'] = request_token.secret
+    session[:linkedin_rtoken] = request_token.token
+    session[:linkedin_rsecret] = request_token.secret
     redirect_to request_token.authorize_url(:oauth_callback => callback_linked_in_accounts_url)
   end
 
   def callback
+    # Make sure they have required info for this url
+    if params[:oauth_verifier].blank? || session[:linkedin_rtoken].blank? || session[:linkedin_rsecret].blank?
+      redirect_to accounts_path
+    end
+
     @account = LinkedInAccount.new
-    @account.authorize(session['linkedin_rtoken'],
-                       session['linkedin_rsecret'],
+    @account.authorize(session[:linkedin_rtoken],
+                       session[:linkedin_rsecret],
                        params[:oauth_verifier])
 
     # Remove stuff from session that is no longer needed
-    session.delete('linkedin_rtoken')
-    session.delete('linkedin_rsecret')
+    session.delete(:linkedin_rtoken)
+    session.delete(:linkedin_rsecret)
 
     # We should now be authenticated so fill in email
     profile = @account.client.profile
     @account.unique_id = profile.first_name.to_s + " " + profile.last_name.to_s
-    
-    current_user.person.linked_in_accounts << @account
+    @account.person_id = current_user.person.id
+ 
+    # User already existed so do not create another one
+    existing_account = @account.existing
+    @account.merge(existing_account) if existing_account
 
-    if @account.save
-      redirect_to( accounts_path, :notice => 'Account was successfully created.')
-    else
-      redirect_to accounts_path, :error => @account.errors 
+    respond_to do |format|
+      if @account.save
+        format.html { redirect_to( accounts_path, :notice => 'Account was successfully created.') }
+        format.xml  { render :xml => @account, :status => :created, :location => @account }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
+      end
     end
   end
 

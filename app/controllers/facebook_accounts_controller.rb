@@ -8,18 +8,31 @@ class FacebookAccountsController < ApplicationController
   end
 
   def callback
+    # Make sure they include the required params
+    if params[:code].blank?
+      redirect_to accounts_path  
+    end
+
     @account = FacebookAccount.new
     @account.authorize(params[:code], :redirect_uri => callback_facebook_accounts_url)
 
-    # We should now be authenticated so fill in email
+    # We should now be authenticated so fill in 
     user_json = @account.client.selection.me.info!
     @account.unique_id = user_json["id"]
-    current_user.person.facebook_accounts << @account
+    @account.person_id = current_user.person.id
 
-    if @account.save
-      redirect_to( accounts_path, :notice => 'Account was successfully created.') 
-    else
-      redirect_to accounts_path 
+    # User already existed so do not create another one
+    existing_account = @account.existing
+    @account.merge(existing_account) if existing_account
+
+    respond_to do |format|
+      if @account.save
+        format.html { redirect_to( accounts_path, :notice => 'Account was successfully created.') }
+        format.xml  { render :xml => @account, :status => :created, :location => @account }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
+      end
     end
   end
 
