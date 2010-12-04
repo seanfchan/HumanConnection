@@ -16,14 +16,10 @@ class FacebookAccountsController < ApplicationController
     @account.unique_id = user_json["id"]
     current_user.person.facebook_accounts << @account
 
-    respond_to do |format|
-      if @account.save
-        format.html { redirect_to( accounts_path, :notice => 'Account was successfully created.') }
-        format.xml  { render :xml => @account, :status => :created, :located => @account }
-      else
-        format.html { redirect_to accounts_path }
-        format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
-      end
+    if @account.save
+      redirect_to( accounts_path, :notice => 'Account was successfully created.') 
+    else
+      redirect_to accounts_path 
     end
   end
 

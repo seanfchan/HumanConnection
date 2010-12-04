@@ -21,18 +21,14 @@ class LinkedInAccountsController < ApplicationController
 
     # We should now be authenticated so fill in email
     profile = @account.client.profile
-    @account.unique_id = profile.id
+    @account.unique_id = profile.first_name.to_s + " " + profile.last_name.to_s
     
     current_user.person.linked_in_accounts << @account
 
-    respond_to do |format|
-      if @account.save
-        format.html { redirect_to( accounts_path, :notice => 'Account was successfully created.') }
-        format.xml  { render :xml => @account, :status => :created, :located => @account }
-      else
-        format.html { redirect_to accounts_path }
-        format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
-      end
+    if @account.save
+      redirect_to( accounts_path, :notice => 'Account was successfully created.')
+    else
+      redirect_to accounts_path, :error => @account.errors 
     end
   end
 
