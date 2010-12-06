@@ -14,7 +14,7 @@
 class Connection < ActiveRecord::Base
   
   # Accessors
-  attr_accessible :type, :user_id, :connection_id
+  attr_accessible :type, :person_id, :connection_id
   
   # Relationships
   belongs_to :person
@@ -23,6 +23,19 @@ class Connection < ActiveRecord::Base
   validates :type, :presence => true
   validates :person_id, :presence => true
   validates :connection_id, :presence => true
+
+  def self.find_or_create(p_id, c_id)
+    connection = find_by_person_id_and_connection_id(p_id, c_id)
+    if !connection
+      connection = self.new
+      connection.person_id = p_id
+      connection.connection_id = c_id
+
+      connection.save
+    end
+    connection
+  end
+
 end
 
 class FamilyConnection < Connection; end
