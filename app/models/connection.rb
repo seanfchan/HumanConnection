@@ -25,7 +25,7 @@ class Connection < ActiveRecord::Base
   validates :connection_id, :presence => true
 
   def self.find_or_create(p_id, c_id)
-    connection = find_by_person_id_and_connection_id(p_id, c_id)
+    connection = Connection.find_by_person_id_and_connection_id(p_id, c_id)
     if !connection
       connection = self.new
       connection.person_id = p_id
@@ -38,6 +38,7 @@ class Connection < ActiveRecord::Base
 
 end
 
+class SignificantOtherConnection < Connection; end
 class FamilyConnection < Connection; end
 class WorkConnection < Connection; end
 class FriendConnection < Connection; end

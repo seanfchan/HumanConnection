@@ -23,6 +23,7 @@ class FacebookAccountsController < ApplicationController
 
     # User already existed so do not create another one
     existing_account = @account.existing
+    # TODO: Implement a full person-2-person merge. Not just accounts
     @account.merge(existing_account) if existing_account
 
     respond_to do |format|
