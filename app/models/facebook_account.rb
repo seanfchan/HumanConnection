@@ -4,11 +4,13 @@
 # Table name: facebook_accounts
 #
 #  id             :integer         not null, primary key
+#  account_type   :string(255)     default("FacebookAccount")
 #  person_id      :integer
 #  last_sync_time :datetime
 #  created_at     :datetime
 #  updated_at     :datetime
 #  unique_id      :string(255)
+#  login          :string(255)
 #  oauth_token    :string(255)
 #
 
@@ -20,7 +22,7 @@ class FacebookAccount < ActiveRecord::Base
   include AccountProperties
 
   # Accessors
-  attr_accessible :unique_id
+  attr_accessible :unique_id, :login
 
   # Validation
   validates :unique_id, :presence => true, 
@@ -52,7 +54,7 @@ class FacebookAccount < ActiveRecord::Base
       friend_person.save
 
       # Create a Facebook account
-      friend_account = FacebookAccount.new
+      friend_account = self.class.new
       friend_account.unique_id = uniq_id
       friend_person.facebook_accounts << friend_account
     end

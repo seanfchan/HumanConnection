@@ -4,29 +4,30 @@
 # Table name: twitter_accounts
 #
 #  id             :integer         not null, primary key
+#  account_type   :string(255)     default("TwitterAccount")
 #  person_id      :integer
 #  last_sync_time :datetime
 #  created_at     :datetime
 #  updated_at     :datetime
 #  unique_id      :string(255)
+#  login          :string(255)
 #  oauth_token    :string(255)
 #  oauth_secret   :string(255)
 #
 
 require 'oauth'
 require 'model_mixins/account_properties'
+require 'connection'
 
 class TwitterAccount < ActiveRecord::Base
   include AccountProperties
-  
+
   # Accessors
-  attr_accessible :unique_id
+  attr_accessible :unique_id, :login
 
   # Validation
   validates :unique_id, :uniqueness => true,
-                    :presence => true
-  validates :oauth_token, :presence => true
-  validates :oauth_secret, :presence => true
+    :presence => true
 
   def authorized?
     !oauth_token.blank? && !oauth_secret.blank?
@@ -62,6 +63,54 @@ class TwitterAccount < ActiveRecord::Base
 
   def mergeable(other)
     return unique_id == other.unique_id
+  end
+
+  def find_or_create(uniq_id, screen_name=nil)
+    # Check if they are already in the DB
+    friend_account = self.class.find_by_unique_id(uniq_id)
+
+    # Add a Facebook account and person to the DB
+    if !friend_account
+      # Create a person
+      friend_person = Person.new
+      friend_person.save
+
+      # Create a Twitter account
+      friend_account = self.class.new
+      friend_account.unique_id = uniq_id
+      friend_account.login = screen_name
+      friend_person.twitter_accounts << friend_account
+    end
+    friend_account
+  end
+
+  def sync_contacts
+    # Check against ActiveRecord validators
+    return if !(valid? || authorized?)
+
+    # Friend relationships
+    friends = client.friends
+    old_connection_count = person.connections.length
+
+    logger.debug "Twitter Sync: Start #{friends.length} Twitter accounts for Person #{person.id}"
+
+    # Add each friend to the database
+    friends.each do |friend| 
+      # Check if in DB or create
+      friend_account = find_or_create(friend.id_str, friend.screen_name)
+
+      # Check if they are connected already or create the connection
+      connection = FriendConnection.find_or_create(person.id, friend_account.person.id)
+    end
+
+    # NOTE: Need to remove connections that are no longer relevant
+
+    # Force a query to the DB again
+    # Probably want to remove this in the future for performance
+    new_connection_count = person.connections(true).length
+    connection_delta = new_connection_count - old_connection_count
+
+    logger.debug "Twitter Sync: Complete #{connection_delta} new connections, before #{old_connection_count} after #{new_connection_count}"
   end
 
   def client

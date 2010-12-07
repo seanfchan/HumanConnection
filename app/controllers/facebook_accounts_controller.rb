@@ -18,7 +18,8 @@ class FacebookAccountsController < ApplicationController
 
     # We should now be authenticated so fill in 
     user_json = @account.client.selection.me.info!
-    @account.unique_id = user_json["id"]
+    @account.unique_id = user_json[:id]
+    @account.login = user_json[:email]
     @account.person_id = current_user.person.id
 
     # User already existed so do not create another one

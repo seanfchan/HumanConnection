@@ -27,6 +27,7 @@ class TwitterAccountsController < ApplicationController
     # We should now be authorized so fill in the login name
     user_json = @account.client.verify_credentials
     @account.unique_id = user_json.id
+    @account.login = user_json.screen_name
     @account.person_id = current_user.person.id
 
     # User already existed so do not create another one
