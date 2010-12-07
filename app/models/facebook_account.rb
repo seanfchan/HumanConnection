@@ -67,8 +67,6 @@ class FacebookAccount < ActiveRecord::Base
     # Check against ActiveRecord validators
     return if !(valid? || authorized?)
 
-    logger.debug "Syncing #{data.length} Facebook accounts for Person #{person.id}"
-
     me = client.selection.me
     my_data = me.info!
     old_connection_count = person.connections.length
@@ -92,6 +90,8 @@ class FacebookAccount < ActiveRecord::Base
     friends = me.friends.info!
     data = friends.data
 
+    logger.debug "Facebook Sync: Start #{data.length} Facebook accounts for Person #{person.id}"
+    
     # Add each friend to the database
     data.each do |friend| 
       # Check if in DB or create
@@ -101,9 +101,14 @@ class FacebookAccount < ActiveRecord::Base
       connection = FriendConnection.find_or_create(person.id, friend_account.person.id)
     end
 
-    new_connection_count = person.connections.length - old_connection_count
+    # NOTE: Need to remove connections that are no longer relevant
 
-    logger.debug "After sync: #{new_connection_count} new connections"
+    # Force a query to the DB again
+    # Probably want to remove this in the future for performance
+    new_connection_count = person.connections(true).length
+    connection_delta = new_connection_count - old_connection_count
+
+    logger.debug "Facebook Sync: Complete #{connection_delta} new connections, before #{old_connection_count} after #{new_connection_count}"
   end
 
   def client
