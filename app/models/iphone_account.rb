@@ -4,6 +4,7 @@
 # Table name: iphone_accounts
 #
 #  id             :integer         not null, primary key
+#  account_type   :string(255)     default("IphoneAccount")
 #  person_id      :integer
 #  last_sync_time :datetime
 #  created_at     :datetime

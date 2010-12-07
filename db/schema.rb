@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(:version => 20101119035757) do
 
   create_table "android_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "AndroidAccounts"
+    t.string   "account_type",   :default => "AndroidAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   end
 
   create_table "blackberry_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "BlackberryAccounts"
+    t.string   "account_type",   :default => "BlackberryAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -45,13 +45,13 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
     t.datetime "updated_at"
   end
 
-  create_table "conversations_users", :id => false, :force => true do |t|
-    t.integer "person_id"
+  create_table "conversations_accounts", :id => false, :force => true do |t|
+    t.integer "account_id"
     t.integer "conversation_id"
   end
 
   create_table "email_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "EmailAccounts"
+    t.string   "account_type",   :default => "EmailAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -61,17 +61,18 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   end
 
   create_table "facebook_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "FacebookAccounts"
+    t.string   "account_type",   :default => "FacebookAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "unique_id"
+    t.string   "login"
     t.string   "oauth_token"
   end
 
   create_table "gmail_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "GmailAccounts"
+    t.string   "account_type",   :default => "GmailAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -83,7 +84,7 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   end
 
   create_table "hotmail_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "HotmailAccounts"
+    t.string   "account_type",   :default => "HotmailAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -95,7 +96,7 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   end
 
   create_table "iphone_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "IphoneAccounts"
+    t.string   "account_type",   :default => "IphoneAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -104,7 +105,7 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   end
 
   create_table "linked_in_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "LinkedInAccounts"
+    t.string   "account_type",   :default => "LinkedInAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -121,7 +122,7 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   end
 
   create_table "phone_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "PhoneAccounts"
+    t.string   "account_type",   :default => "PhoneAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -137,12 +138,13 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   end
 
   create_table "twitter_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "TwitterAccounts"
+    t.string   "account_type",   :default => "TwitterAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "unique_id"
+    t.string   "login"
     t.string   "oauth_token"
     t.string   "oauth_secret"
   end
@@ -164,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
   create_table "win_mob_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "WinMobAccounts"
+    t.string   "account_type",   :default => "WinMobAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
@@ -173,7 +175,7 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
   end
 
   create_table "yahoo_accounts", :force => true do |t|
-    t.string   "account_type",   :default => "YahooAccounts"
+    t.string   "account_type",   :default => "YahooAccount"
     t.integer  "person_id"
     t.datetime "last_sync_time"
     t.datetime "created_at"
