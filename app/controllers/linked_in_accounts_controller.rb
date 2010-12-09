@@ -25,8 +25,8 @@ class LinkedInAccountsController < ApplicationController
     session.delete(:linkedin_rsecret)
 
     # We should now be authenticated so fill in email
-    profile = @account.client.profile
-    @account.unique_id = profile.first_name.to_s + " " + profile.last_name.to_s
+    profile = @account.client.profile(:fields => [:id])
+    @account.unique_id = profile.id
     @account.person_id = current_user.person.id
  
     # User already existed so do not create another one
