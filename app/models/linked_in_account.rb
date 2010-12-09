@@ -46,24 +46,6 @@ class LinkedInAccount < ActiveRecord::Base
     return unique_id == other.unique_id
   end
 
-  def find_or_create(uniq_id)
-    # Check if they are already in the DB
-    friend_account = self.class.find_by_unique_id(uniq_id)
-
-    # Add a Facebook account and person to the DB
-    if !friend_account
-      # Create a person
-      friend_person = Person.new
-      friend_person.save
-
-      # Create a LinkedIn account
-      friend_account = self.class.new
-      friend_account.unique_id = uniq_id
-      friend_person.linked_in_accounts << friend_account
-    end
-    friend_account
-  end
-
   def sync_contacts
     # Check against ActiveRecord validators
     return if !(valid? || authorized?)
@@ -78,7 +60,7 @@ class LinkedInAccount < ActiveRecord::Base
     # Add each friend to the database
     friends.each do |friend| 
       # Check if in DB or create
-      friend_account = find_or_create(friend.id)
+      friend_account = find_or_create(:unique_id, {:unique_id => friend.id})
 
       # Check if they are connected already or create the connection
       connection = FriendConnection.find_or_create(person.id, friend_account.person.id)
