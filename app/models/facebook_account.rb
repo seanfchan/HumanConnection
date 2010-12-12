@@ -52,7 +52,20 @@ class FacebookAccount < ActiveRecord::Base
     return if !(valid? || authorized?)
 
     me = client.selection.me
-    my_data = me.info!
+    
+    # Perform all api requests in one place for easier exception handling
+    # Wrap in exception in case access has been revoked
+    begin
+      my_data = me.info!
+      friends = me.friends.info!
+    rescue
+      # Nothing we can really do here. So just return. 
+      # We need to check these on startup and prompt the user to either
+      # delete their Facebook account or grant access again.
+      logger.debug "Facebook access for person #{person.id if person} has been revoked"
+      return
+    end
+
     old_connection_count = person.connections.length
 
     # Family/Significant other relationships go first as they are included in friends
@@ -71,7 +84,6 @@ class FacebookAccount < ActiveRecord::Base
     # NEED TO IMPLEMENT - can't find it in the api yet
 
     # Friend relationships
-    friends = me.friends.info!
     data = friends.data
 
     logger.debug "Facebook Sync: Start #{data.length} Facebook accounts for Person #{person.id}"

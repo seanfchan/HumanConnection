@@ -69,8 +69,20 @@ class TwitterAccount < ActiveRecord::Base
     # Check against ActiveRecord validators
     return if !(valid? || authorized?)
 
+    debugger
+
     # Friend relationships
-    friends = client.friends
+    # Wrap in exception in case access has been revoked
+    begin
+      friends = client.friends
+    rescue
+      # Nothing we can really do here. So just return. 
+      # We need to check these on startup and prompt the user to either
+      # delete their Twitter account or grant access again.
+      logger.debug "Twitter access for person #{person.id if person} has been revoked"
+      return
+    end
+
     old_connection_count = person.connections.length
 
     logger.debug "Twitter Sync: Start #{friends.length} Twitter accounts for Person #{person.id}"

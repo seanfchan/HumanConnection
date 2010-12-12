@@ -24,8 +24,16 @@ class TwitterAccountsController < ApplicationController
     session.delete(:twit_rtoken)
     session.delete(:twit_rsecret)
 
-    # We should now be authorized so fill in the login name
-    user_json = @account.client.verify_credentials
+    # We should now be authorized so try to fill in unique_id
+    # Need exception handling in case of bad oauth token
+    begin
+      user_json = @account.client.verify_credentials
+    rescue
+      # Log and prompt them to give credentials again
+      logger.debug "Unable to access TwitterApi for person #{current_user.person.id}"
+      redirect_to( new_twitter_account_path, :notice => 'Twitter credentials are invalid. Please update them.')
+    end
+    
     @account.unique_id = user_json.id
     @account.login = user_json.screen_name
     @account.person_id = current_user.person.id

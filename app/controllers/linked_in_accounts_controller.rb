@@ -25,7 +25,15 @@ class LinkedInAccountsController < ApplicationController
     session.delete(:linkedin_rsecret)
 
     # We should now be authenticated so fill in email
-    profile = @account.client.profile(:fields => [:id])
+    # Wrap in exception handling in case we do not have access
+    begin
+      profile = @account.client.profile(:fields => [:id])
+    rescue
+      # Log and prompt them to give credentials again
+      logger.debug "Unable to access LinkedInApi for person #{current_user.person.id}"
+      redirect_to( new_linked_in_account_path, :notice => 'Linked In credentials are invalid. Please update them.')
+    end
+
     @account.unique_id = profile.id
     @account.person_id = current_user.person.id
  

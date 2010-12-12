@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration
       t.column :state,                     :string, :null => :no, :default => 'passive'
       t.column :deleted_at,                :datetime
     end
+    # Ensure uniqueness at DB level. Also provide fast lookups
     add_index :users, :email, :unique => true
   end
 

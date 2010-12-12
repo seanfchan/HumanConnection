@@ -17,7 +17,15 @@ class FacebookAccountsController < ApplicationController
     @account.authorize(params[:code], :redirect_uri => callback_facebook_accounts_url)
 
     # We should now be authenticated so fill in 
-    user_json = @account.client.selection.me.info!
+    # Wrap in exception handling in case we do not have access
+    begin
+      user_json = @account.client.selection.me.info!
+    rescue
+      # Log and prompt them to give credentials again
+      logger.debug "Unable to access FacebookApi for person #{current_user.person.id}"
+      redirect_to( new_facebook_account_path, :notice => 'Facebook credentials are invalid. Please update them.')
+    end
+
     @account.unique_id = user_json[:id]
     @account.login = user_json[:email]
     @account.person_id = current_user.person.id
