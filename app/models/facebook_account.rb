@@ -107,10 +107,13 @@ class FacebookAccount < ActiveRecord::Base
     logger.debug "Facebook Sync: Complete #{connection_delta} new connections, before #{old_connection_count} after #{new_connection_count}"
   end
 
-  def client
-    @client ||= FBGraph::Client.new(:client_id => @@config["app_id"],
+  def client(force = false)
+    if force || !@client
+      @client = FBGraph::Client.new(:client_id => @@config["app_id"],
                                     :secret_id => @@config["app_secret"],
                                     :token => oauth_token)
+    end
+    @client
   end
 
   def self.config
