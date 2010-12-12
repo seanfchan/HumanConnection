@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
     t.string   "oauth_token"
   end
 
+  add_index "facebook_accounts", ["unique_id"], :name => "index_facebook_accounts_on_unique_id", :unique => true
+
   create_table "gmail_accounts", :force => true do |t|
     t.string   "account_type",   :default => "GmailAccount"
     t.integer  "person_id"
@@ -115,6 +117,8 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
     t.string   "oauth_secret"
   end
 
+  add_index "linked_in_accounts", ["unique_id"], :name => "index_linked_in_accounts_on_unique_id", :unique => true
+
   create_table "people", :force => true do |t|
     t.integer  "user_id"
     t.datetime "created_at"
@@ -148,6 +152,8 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
     t.string   "oauth_token"
     t.string   "oauth_secret"
   end
+
+  add_index "twitter_accounts", ["unique_id"], :name => "index_twitter_accounts_on_unique_id", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                     :limit => 100

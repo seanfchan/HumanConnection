@@ -15,10 +15,16 @@
 #  oauth_secret   :string(255)
 #
 
+# File::      twitter_account.rb
+#
+# Author::    Jon Boekenoogen (mailto:jboekeno@gmail.com)
+# Copyright:: Copyright (c) 2010 <INSERT_COMPANY_NAME>
+
 require 'oauth'
 require 'model_mixins/account_properties'
 require 'connection'
 
+# This class represents a Twitter Account in the database. 
 class TwitterAccount < ActiveRecord::Base
   include AccountProperties
 
@@ -29,11 +35,25 @@ class TwitterAccount < ActiveRecord::Base
   validates :unique_id, :uniqueness => true,
     :presence => true
 
+  # Performs a quick check whether this account could
+  # be valid. Really need to double check with api requests.
+  # === Return
+  # true if could be valid, false otherwise
   def authorized?
     !oauth_token.blank? && !oauth_secret.blank?
   end
 
+  # Sets the oauth_token and oauth_secret for an account.
+  # This is done by asking Twitter for the access token given the
+  # request token values.
+  # === Parameters
+  # * +rtoken+ - Request token obtained previously from request_token
+  # * +rsecret+ - Request secret obtained previously from request_token
+  # * +options+ - Html options that are required by Twitter API. None for now
+  # === Return
+  # access token from Twitter
   def authorize(rtoken, rsecret, options = {})
+    # Create request_token using old values
     request_token = OAuth::RequestToken.new(
       consumer, rtoken, rsecret
     )
@@ -43,10 +63,19 @@ class TwitterAccount < ActiveRecord::Base
     access_token
   end
 
+  # Gets a request_token from Twitter 
+  # === Parameters
+  # * +options+ - Html options that are required by Twitter API. None for now
+  # === Return
+  # request token from Twitter
   def request_token(options = {})
     consumer.get_request_token(options)
   end
 
+  # Creates a consumer object and caches it for OAuth plugin using
+  # Twitter API configuration
+  # === Return
+  # Consumer from OAuth plugin.
   def consumer
     @consumer ||= begin
                     options = {:site => @@config["site"], :request_endpoint => @@config["site"]}
@@ -56,20 +85,35 @@ class TwitterAccount < ActiveRecord::Base
                   end
   end
 
-  # Returns an existing account if found
+  # Finds an existing TwitterAccount using unique_id of self
+  # === Return
+  # Existing account if found, nil otherwise
   def existing
     return self.class.find_by_unique_id(unique_id)
   end
-
+  
+  # Checks whether this account and another can be merged 
+  # === Parameters
+  # * +other+ - other object to be merged with
+  # === Return
+  # true if mergeable, false otherwise
   def mergeable(other)
-    return unique_id == other.unique_id
+    return self.class == other.class && unique_id == other.unique_id
   end
-
+  
+  # Accesses TwitterApi and populates contact information into the database.
+  # TODO: Remove connections if no longer friends under any accounts.
+  # 
+  # === Steps:
+  # * Check if account is valid.
+  # * Download followers.
+  # * Add follower as Person/TwitterAccount if not in DB.
+  # * Add follower as connection if not in DB.
+  # === Return
+  # None
   def sync_contacts
     # Check against ActiveRecord validators
     return if !(valid? || authorized?)
-
-    debugger
 
     # Friend relationships
     # Wrap in exception in case access has been revoked
@@ -106,23 +150,36 @@ class TwitterAccount < ActiveRecord::Base
     logger.debug "Twitter Sync: Complete #{connection_delta} new connections, before #{old_connection_count} after #{new_connection_count}"
   end
 
-  def client
-    return nil if !authorized?
-    @client ||= begin
-                  Twitter.configure do |config|
-                    config.consumer_key = @@config["consumer_token"]
-                    config.consumer_secret = @@config["consumer_secret"]
-                    config.oauth_token = oauth_token
-                    config.oauth_token_secret = oauth_secret
-                  end
-                  Twitter::Client.new
-                end
+  # Main access point for the Twitter api. Use this object for all api
+  # interactions. Client is cached until forced to reload
+  # === Parameters
+  # * +force+ - Force a reload on the client.
+  # === Return
+  # Twitter client to use for api access, nil if not authorized
+  def client(force = false)
+    return @client = nil if !authorized?
+    
+    if force || !@client
+      Twitter.configure do |config|
+        config.consumer_key = @@config["consumer_token"]
+        config.consumer_secret = @@config["consumer_secret"]
+        config.oauth_token = oauth_token
+        config.oauth_token_secret = oauth_secret
+      end
+      @client = Twitter::Client.new
+    end
+    
+    @client
   end
-
+  
+  # Convenience method to accessing configuration parameters
+  # === Returns
+  # Twitter configuration as a yaml hash
   def self.config
     @@config 
   end
 
+  # Configuration parameters for Twitter api
   @@config = YAML::load(File.open("#{::Rails.root.to_s}/config/twitter.yml"))
 
 end

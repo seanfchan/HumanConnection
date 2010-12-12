@@ -35,8 +35,8 @@ class Person < ActiveRecord::Base
 
   def accounts(force = false)
     if force || !@accounts
-      @accounts = all_email_accounts + all_phone_accounts 
-        + all_social_accounts
+      @accounts = all_email_accounts + all_phone_accounts +
+        all_social_accounts
     end
     @accounts
   end

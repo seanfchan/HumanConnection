@@ -11,6 +11,8 @@ class AccountsController < ApplicationController
     @allPhoneAccounts = current_user.person.all_phone_accounts 
     @allSocialAccounts = current_user.person.all_social_accounts
 
+    @accounts = current_user.person.accounts
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @accounts }
