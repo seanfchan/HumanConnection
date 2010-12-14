@@ -32,6 +32,8 @@ HumanConnections::Application.routes.draw do
   resources :email_accounts, :gmail_accounts, :hotmail_accounts, :yahoo_accounts
   resources :phone_accounts, :android_accounts, :iphone_accounts, :blackberry_accounts, :win_mob_accounts
 
+  resource :sessions, :only => [:new, :destroy]
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
