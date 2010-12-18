@@ -27,7 +27,7 @@ module Authentication
 
   module ModelClassMethods
     def secure_digest(*args)
-      Digest::SHA1.hexdigest(args.flatten.join('--'))
+      Digest::SHA2.hexdigest(args.flatten.join('--'))
     end
 
     def make_token

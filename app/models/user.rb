@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
     :format     => { :with => Authentication.email_regex, :message => Authentication.bad_email_message },
     :length     => { :within => 6..100 }
 
+  validates :api_key, :uniqueness => true
+
   # Relationships
   has_one  :person
 
@@ -54,6 +56,19 @@ class User < ActiveRecord::Base
 
   def email=(value)
     write_attribute :email, (value ? value.downcase : nil)
+  end
+
+  def enable_api!(replace=false)
+    return true if (api_enabled? && !replace)
+    self.update_attribute(:api_key, self.class.make_token)
+  end
+
+  def disable_api!
+    self.update_attribute(:api_key, "")
+  end
+
+  def api_enabled?
+    !self.api_key.empty?
   end
 
   protected

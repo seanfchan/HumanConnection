@@ -44,49 +44,44 @@ class LinkedInAccountsController < ApplicationController
     respond_to do |format|
       if @account.save
         format.html { redirect_to( accounts_path, :notice => 'Account was successfully created.') }
-        format.xml  { render :xml => @account, :status => :created, :location => @account }
         format.json { render :json => @account, :status => :created, :location => @account }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
         format.json { render :json => @account.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # GET /linked_accounts
-  # GET /linked_accounts.xml
+  # GET /linked_accounts.json
   def index
     @accounts = current_user.person.linked_in_accounts
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @accounts }
       format.json { render :json => @accounts }
     end
   end
 
   # DELETE /linked_in_accounts/1
-  # DELETE /linked_in_accounts/1.xml
+  # DELETE /linked_in_accounts/1.json
   def destroy
     @account = current_user.person.linked_in_accounts.find(params[:id])
     @account.destroy
 
     respond_to do |format|
       format.html { redirect_to accounts_path }
-      format.xml  { head :ok }
       format.json { head :ok }
     end
   end
 
   # GET /linked_in_accounts/1
-  # GET /linked_in_accounts/1.xml
+  # GET /linked_in_accounts/1.json
   def show
     @account = current_user.person.linked_in_accounts.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @account }
       format.json { render :json => @account }
     end
   end

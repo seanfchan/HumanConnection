@@ -159,16 +159,18 @@ ActiveRecord::Schema.define(:version => 20101119035757) do
     t.string   "email",                     :limit => 100
     t.string   "crypted_password",          :limit => 64
     t.string   "salt",                      :limit => 64
+    t.string   "api_key",                   :limit => 64
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "remember_token",            :limit => 40
+    t.string   "remember_token",            :limit => 64
     t.datetime "remember_token_expires_at"
-    t.string   "activation_code",           :limit => 40
+    t.string   "activation_code",           :limit => 64
     t.datetime "activated_at"
     t.string   "state",                                    :default => "passive"
     t.datetime "deleted_at"
   end
 
+  add_index "users", ["api_key"], :name => "index_users_on_api_key", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
 
   create_table "win_mob_accounts", :force => true do |t|

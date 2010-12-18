@@ -1,5 +1,6 @@
 HumanConnections::Application.routes.draw do
   resource :session, :only => [:new, :create, :destroy]
+  resource :api, :only => [:create, :destroy]
   resource :home, :only => [:index]
 
   resources :facebook_accounts, :only => [:show, :destroy, :new] do
@@ -25,6 +26,9 @@ HumanConnections::Application.routes.draw do
   match 'register' => 'users#create', :as => :register
   match 'login' => 'sessions#new', :as => :login
   match 'logout' => 'sessions#destroy', :as => :logout
+  match 'api_login' => 'api#create', :as => :api_login
+  match 'api_logout' => 'api#destroy', :as => :api_logout
+  match '/activate/:activation_code' => 'users#activate', :as => :activate, :activation_code => nil
   match '/activate/:activation_code' => 'users#activate', :as => :activate, :activation_code => nil
   match 'accounts' => 'accounts#index', :as => :accounts
 

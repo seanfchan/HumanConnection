@@ -9,7 +9,15 @@ module AuthenticatedSystem
     # Accesses the current user from the session.
     # Future calls avoid the database because nil is not equal to false.
     def current_user
-      @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie) unless @current_user == false
+      # html requests require logging in and using session/cookie
+      if request.format.html?
+        @current_user ||= (login_from_session || login_from_cookie) unless @current_user == false
+      # Api requests require an api key
+      else
+        @current_user ||= (login_from_api_key) unless @current_user == false
+      end
+
+      @current_user
     end
 
     # Store the given user id in the session.
@@ -63,17 +71,18 @@ module AuthenticatedSystem
     # simply close itself.
     def access_denied
       respond_to do |format|
-        format.html do
+        format.html {
           store_location
           redirect_to new_session_path
-        end
+        }
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
         # Add any other API formats here.  (Some browsers, notably IE6, send Accept: */* and trigger 
         # the 'format.any' block incorrectly. See http://bit.ly/ie6_borken or http://bit.ly/ie6_borken2
         # for a workaround.)
-        format.any(:json, :xml) do
-          request_http_basic_authentication 'Web Password'
-        end
+        format.json {
+          head :unauthorized
+          #request_http_basic_authentication 'Web Password'
+        }
       end
     end
 
@@ -113,6 +122,10 @@ module AuthenticatedSystem
       authenticate_with_http_basic do |login, password|
         self.current_user = User.authenticate(login, password)
       end
+    end
+
+    def login_from_api_key
+      User.find_by_api_key(params[:api_key]) if params[:api_key] && !params[:api_key].empty?
     end
     
     #
