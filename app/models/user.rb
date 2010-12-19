@@ -32,8 +32,6 @@ class User < ActiveRecord::Base
     :format     => { :with => Authentication.email_regex, :message => Authentication.bad_email_message },
     :length     => { :within => 6..100 }
 
-  validates :api_key, :uniqueness => true
-
   # Relationships
   has_one  :person
 
