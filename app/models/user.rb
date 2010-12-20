@@ -57,16 +57,17 @@ class User < ActiveRecord::Base
   end
 
   def enable_api!(replace=false)
+    return false if !active?
     return true if (api_enabled? && !replace)
     self.update_attribute(:api_key, self.class.make_token)
   end
 
   def disable_api!
-    self.update_attribute(:api_key, "")
+    self.update_attribute(:api_key, nil)
   end
 
   def api_enabled?
-    !self.api_key.empty?
+    api_key && !api_key.empty?
   end
 
   protected

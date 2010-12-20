@@ -9,7 +9,8 @@ module Authorization
       recipient.class_eval do
         include StatefulRolesInstanceMethods
         
-        acts_as_state_machine :initial => :pending
+        # acts_as_state_machine :initial => :pending
+        acts_as_state_machine :initial => :passive
         state :passive
         state :pending, :enter => :make_activation_code
         state :active,  :enter => :do_activate

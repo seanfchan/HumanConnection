@@ -39,6 +39,8 @@ group :test do
   gem 'ruby-debug19'
 	gem 'rspec-rails', '2.0.1'
 	gem 'annotate-models', '1.0.4'
+	gem 'shoulda'
+	gem 'factory_girl_rails'
 end
 
 gem 'oauth', '0.3.5'
