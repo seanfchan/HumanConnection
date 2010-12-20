@@ -1,12 +1,24 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-=begin
+
+  # Called before all tests are run
+  def setup
+    # Needed for validate_uniqueness_of to work
+    # validate_uniqueness_of requires at least one record to work
+    user = Factory(:user)
+  end
+
+  # Called after all tests are run
+  def teardown
+
+  end
+
   # Shoulda tests (Validation, mass assignment, associations)
   # Validations
-  should validate_uniqueness_of(:email)
+  should validate_uniqueness_of(:email).case_insensitive
   should validate_presence_of(:email)
-  should validate_inclusion_of(:email).in_range(6..100)
+  should ensure_length_of(:email).is_at_least(6).is_at_most(100)
   should allow_value("a@b.com").for(:email)
   should allow_value("email@gmail.com").for(:email)
   should_not allow_value("blahblah").for(:email)
@@ -22,7 +34,11 @@ class UserTest < ActiveSupport::TestCase
   should_not allow_mass_assignment_of(:salt)
   should_not allow_mass_assignment_of(:activation_code)
   should_not allow_mass_assignment_of(:state)
-=end
+
+  # DB index tests
+  should have_db_index(:email).unique(true)
+  should have_db_index(:api_key).unique(true)
+
   # Comprehensive user tests
   def test_should_create_user
     assert_difference 'User.count' do

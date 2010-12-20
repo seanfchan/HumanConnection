@@ -30,16 +30,17 @@ gem 'mongrel', '>= 1.2.0.pre2'
 # end
 
 group :development do
-  gem 'ruby-debug19'
+  gem 'ruby-debug', :platforms => :mri_18
+  gem 'ruby-debug19', :platforms => :mri_19
 	gem 'rspec-rails', '2.0.1'
 	gem 'annotate-models', '1.0.4'
 end
 
 group :test do
-  gem 'ruby-debug19'
+  gem 'ruby-debug', :platforms => :mri_18
+  gem 'ruby-debug19', :platforms => :mri_19
 	gem 'rspec-rails', '2.0.1'
 	gem 'annotate-models', '1.0.4'
-	gem 'shoulda'
 	gem 'factory_girl_rails'
 end
 
