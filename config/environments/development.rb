@@ -16,7 +16,18 @@ HumanConnections::Application.configure do
   config.action_view.debug_rjs             = true
   config.action_controller.perform_caching = false
 
-  # Don't care if the mailer can't send
+  # Set up mailer for development to use GMail
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.smtp_settings = {
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :domain => 'gmail.com',
+    :user_name => "humanconnections11@gmail.com",
+    :password => "HuM41nC0nn3ct1ons",
+    :authentication => :plain
+  }
   config.action_mailer.raise_delivery_errors = false
 
   # Print deprecation notices to the Rails logger
