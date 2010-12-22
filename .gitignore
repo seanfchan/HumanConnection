@@ -8,8 +8,6 @@ tmp/**/*
 tmp/*
 doc/api
 doc/app
-coverage/*
-coverage/**/*
 *.swp
 *~
 .DS_Store
