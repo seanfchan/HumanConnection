@@ -11,3 +11,5 @@ doc/app
 *.swp
 *~
 .DS_Store
+coverage/**/*
+coverage/*

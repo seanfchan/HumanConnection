@@ -1,3 +1,7 @@
+# Start up the code coverage tool. This needs to be line #1
+require 'simplecov'
+SimpleCov.start 'rails'
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
