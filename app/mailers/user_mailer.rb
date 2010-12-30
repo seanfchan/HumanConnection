@@ -17,7 +17,7 @@ class UserMailer < ActionMailer::Base
   def setup_email(user)
     @from        = "humanconnections11@gmail.com"
     @recipients  = "#{user.email}"
-    @subject     = "[Please activate your account] "
+    @subject     = "[HumanConnections] "
     @sent_on     = Time.now
     @user = user
   end

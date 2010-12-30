@@ -9,20 +9,10 @@ class UsersControllerTest < ActionController::TestCase
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :users
-
   def test_should_allow_signup
     assert_difference 'User.count' do
       create_user
       assert_response :redirect
-    end
-  end
-
-  def test_should_require_login_on_signup
-    assert_no_difference 'User.count' do
-      create_user(:login => nil)
-      assert assigns(:user).errors.on(:login)
-      assert_response :success
     end
   end
 
@@ -64,11 +54,12 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_should_activate_user
-    assert_nil User.authenticate('aaron', 'test')
-    get :activate, :activation_code => users(:aaron).activation_code
+    create_user
+    user = assigns(:user)
+    get :activate, :activation_code => user.activation_code
     assert_redirected_to '/login'
     assert_not_nil flash[:notice]
-    assert_equal users(:aaron), User.authenticate('aaron', 'monkey')
+    assert_equal user, User.authenticate('quire@example.com', 'quire69')
   end
   
   def test_should_not_activate_user_without_key
@@ -87,7 +78,8 @@ class UsersControllerTest < ActionController::TestCase
 
   protected
     def create_user(options = {})
-      post :create, :user => { :login => 'quire', :email => 'quire@example.com',
+      post :create, :user => { :email => 'quire@example.com',
         :password => 'quire69', :password_confirmation => 'quire69' }.merge(options)
     end
+
 end
